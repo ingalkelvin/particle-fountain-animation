@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background-color:#abc;
+	text-align:center;
+}
+canvas{
+	background-color:#cba;
+	height: 400px;
+	width: 400px;
+	
+}
+
+
+#locationx {
+	
+	width:400px;
+	margin-left:-91px;
+
+}
+
+#locationy {
+	
+	height:370px;
+
+}
+
+
+

@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fountain</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="row">
+	<div class="row">
+		<canvas id="canvas" width="400px" height="400px"></canvas>
+		<!-- how to vertical orient input range -->
+		
+		<input type="range" orient="vertical" id="locationy"min="1"  max="370" value="65" onchange="changePressure()"> Location Y
+	</div>
+
+	<div class="row">
+
+		<input type="range" id="locationx"min="1"  max="132" value="65" onchange="changeLocation()"> <p style="margin-left:-240px"> Location </p>
+	
+	</div>
+</div>
+
+<script src="utils.js"></script>
+<script src="ball.js"></script>
+
+
+<script>
+
+var locationX = 65;
+
+
+function changeLocation()
+{
+
+	locationX = Number(document.getElementById('locationx').value);	
+}
+
+function changePressure(){
+
+	return Number(document.getElementById('locationy').value);
+		
+}
+
+
+window.onload=function(){
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var array=[];
+var numarray= 180;
+var gravity= 0.5;
+var ball;
+
+function randomColor(){
+var letters='0123456789ABCDEF'.split('');
+var color="#";
+
+for(var i=0;i<6;i++){
+color+=letters[Math.round(Math.random()*15)];
+}
+return color;
+}
+
+function draw(ball){
+	ball.vy+=gravity;
+
+	if(410 - ball.y > changePressure()) {
+
+		ball.y = ball.y + 4;
+		ball.vy = ball.vy+4;
+	}
+	else {
+		ball.y+=ball.vy;	
+	}
+
+	ball.x+=ball.vx;
+	
+
+
+	if(ball.x-ball.radius>canvas.width||
+		ball.x+ball.radius<0||
+		ball.y-ball.radius>canvas.height||
+		ball.y+ball.radius<0){
+		//ball.x=canvas.width/2;
+
+			ball.x=locationX;
+			ball.y=canvas.height;
+
+			ball.vx=Math.random()*2-1;
+			ball.vy = Math.random() * (changePressure()/6) - (changePressure()/6); 
+			
+		}
+
+
+		ball.draw(context);
+}
+
+	for(i=0;i<numarray;i++){
+		ball = new Ball(2, randomColor());
+		ball.x=canvas.width/2;
+
+
+		ball.y=canvas.height;
+		ball.vx=Math.random()*2-1;
+		ball.vy=Math.random()*-10-10;
+		array.push(ball);
+	}
+
+
+	(function drawFrame(){
+	window.requestAnimationFrame(drawFrame,canvas);
+	context.clearRect(0,0,canvas.width,canvas.height);
+	array.forEach(draw);
+
+	}());
+};
+
+</script>
+</body>
+</html>
+
+</html>
